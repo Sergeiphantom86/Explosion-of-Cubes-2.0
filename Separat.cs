@@ -1,43 +1,79 @@
+using System.Collections.Generic;
 using UnityEngine;
+
+[RequireComponent(typeof(BoxCollider), typeof(Rigidbody), typeof(RandomColor))]
 
 public class Separat : MonoBehaviour
 {
-    public static int Random(int min, int max)
+    [SerializeField] private GameObject _newCube;
+
+    private List<Rigidbody> _rigidbodysNewItem = new();
+    private Explosion _explosion;
+
+    private int _reductionFactor = 2;
+    private static float _separation = 1;
+    private float _chanc;
+
+    private void Start()
     {
-        return new System.Random().Next(min, max);
+        _newCube = gameObject;
+        _chanc = _separation;
+
+        _explosion = gameObject.AddComponent<Explosion>();
     }
 
     private void OnMouseDown()
     {
-        if (gameObject.transform.lossyScale.x >= GetAbilityShare() / 100f)
+        if (_chanc >= Random.value)
         {
-            AddNewItems();
-           
-            Destroy(gameObject);
+            AddNewItem(_newCube);
+
+            SetSplitChance(_chanc / _reductionFactor);
+
+            _explosion.UseOnlyForNewObjects(_rigidbodysNewItem);
         }
         else
         {
-            Destroy(gameObject);
+            _explosion.UseAllObjects();
+        }
+
+        Destroy(gameObject);
+    }
+
+    private void AddNewItem(GameObject newCube)
+    {
+        int quantityItems = GetQuantityItems();
+
+        for (int i = 0; i <= quantityItems; i++)
+        {
+            ReduceSize(СreateNewGameObject(newCube));
+
+            _rigidbodysNewItem.Add(newCube.GetComponent<Rigidbody>());
         }
     }
 
-    private void AddNewItems()
+    private GameObject СreateNewGameObject(GameObject newCube)
+    {
+        return Instantiate(newCube, transform.position, Random.rotation);
+    }
+
+    private int GetQuantityItems()
     {
         int minQuantity = 2;
         int maxQuantity = 6;
-        int scale = 2;
 
-        gameObject.AddComponent<Palette>().GetTexturs();
-        gameObject.AddComponent<Explosion>().GetExplode();
-
-        for (int i = 0; i <= Random(minQuantity, maxQuantity); i++)
-        {
-            Instantiate(gameObject, transform.position, Quaternion.identity).transform.localScale = transform.lossyScale / scale;
-        }
+        return Random.Range(minQuantity, maxQuantity);
     }
 
-    private float  GetAbilityShare()
+    private void ReduceSize(GameObject newItem)
     {
-        return Random(0, 100);
+        int scaleItem = 2;
+
+        newItem.transform.localScale = transform.lossyScale / scaleItem;
+    }
+
+    private void SetSplitChance(float value)
+    {
+        _separation = value;
     }
 }
