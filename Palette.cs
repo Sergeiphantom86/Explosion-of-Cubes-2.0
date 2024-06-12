@@ -12,12 +12,12 @@ public class Color : MonoBehaviour
 
     public void Replace()
     {
-        AddColors();
+        Add();
 
         gameObject.GetComponent<Renderer>().material.color = _colors[Random.Range(0, _colors.Count)];
     }
 
-    private void AddColors()
+    private void Add()
     {
         _colors.Add(Color.red);
         _colors.Add(Color.green);
