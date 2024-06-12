@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Color : MonoBehaviour
+public class RandomColor : MonoBehaviour
 {
     private readonly List<Color> _colors = new();
 
