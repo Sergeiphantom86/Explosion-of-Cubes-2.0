@@ -3,7 +3,12 @@ using UnityEngine;
 
 public class Color : MonoBehaviour
 {
-    private readonly List<UnityEngine.Color> _colors = new();
+    private readonly List<Color> _colors = new();
+
+    private void Start()
+    {
+        Replace();
+    }
 
     public void Replace()
     {
@@ -14,12 +19,12 @@ public class Color : MonoBehaviour
 
     private void AddColors()
     {
-        _colors.Add(UnityEngine.Color.red);
-        _colors.Add(UnityEngine.Color.green);
-        _colors.Add(UnityEngine.Color.blue);
-        _colors.Add(UnityEngine.Color.magenta);
-        _colors.Add(UnityEngine.Color.yellow);
-        _colors.Add(UnityEngine.Color.white);
-        _colors.Add(UnityEngine.Color.cyan);
+        _colors.Add(Color.red);
+        _colors.Add(Color.green);
+        _colors.Add(Color.blue);
+        _colors.Add(Color.magenta);
+        _colors.Add(Color.yellow);
+        _colors.Add(Color.white);
+        _colors.Add(Color.cyan);
     }
 }
